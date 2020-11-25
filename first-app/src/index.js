@@ -1,117 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import './index.css'
+import App from './app'
+import HelloWorld from './hello_world/helloWorld'
+import JogoDaVelha from './tic_tac_toe/ticTacToe'
+import Notfound from './notFound.js'
 
-function Square(props) {
-    return (
-      <button className="square" onClick={props.onClick}>
-        {props.value}
-      </button>
-    );
-}
+// Based on https://codeburst.io/getting-started-with-react-router-5c978f70df91
 
-function calculateWinner(squares) {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let index = 0; index < lines.length; index++) {
-      const [a, b, c] = lines[index];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-    }
-    return null;
-}
-  
-  class Board extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        squares: Array(9).fill(null),
-        xIsNext: true,
-      };
-    }
+const routing = (
+    <Router>
+        <div>
+            <ul>
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
+                <li>
+                    <Link to="/helloWorld">Hello World :)</Link>
+                </li>
+                <li>
+                    <Link to="/jogoDaVelha">Tic Tac Toe</Link>
+                </li>
+            </ul>
+            <Route path="/" component={App} />
+            <Route path="/helloWorld" component={HelloWorld} />
+            <Route path="/jogoDaVelha" component={JogoDaVelha} />
+            <Route component={Notfound} />
+        </div>
+    </Router>
+)
+ReactDOM.render(routing, document.getElementById('root'))
 
-    handleClick(index) {
-        const squares = this.state.squares.slice();
-        if (calculateWinner(squares) || squares[index]) {
-          return;
-        }
-        squares[index] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-          squares: squares,
-          xIsNext: !this.state.xIsNext,
-        });
-    }
 
-    renderSquare(index) {
-        return (
-          <Square
-            value={this.state.squares[index]}
-            onClick={() => this.handleClick(index)}
-          />
-        );
-      }
-    
-    render() {
-        const winner = calculateWinner(this.state.squares);
-        let status;
-        if (winner) {
-        status = 'Winner: ' + winner;
-        } else {
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
-        return (
-            <div>
-            <div className="status">{status}</div>
-            <div className="board-row">
-                {this.renderSquare(0)}
-                {this.renderSquare(1)}
-                {this.renderSquare(2)}
-            </div>
-            <div className="board-row">
-                {this.renderSquare(3)}
-                {this.renderSquare(4)}
-                {this.renderSquare(5)}
-            </div>
-            <div className="board-row">
-                {this.renderSquare(6)}
-                {this.renderSquare(7)}
-                {this.renderSquare(8)}
-            </div>
-            </div>
-        );
-    }
-    
-}
- 
-class Game extends React.Component {
-    render() {
-        return (
-          <div className="game">
-            <div className="game-board">
-              <Board />
-            </div>
-            <div className="game-info">
-              <div>{/* status */}</div>
-              <ol>{/* TODO */}</ol>
-            </div>
-          </div>
-        );
-      }
-  }
-
-  // ========================================
-  
-  ReactDOM.render(
-    <Game />,
-    document.getElementById('root')
-  );
-  
