@@ -5,11 +5,16 @@ function App() {
   const [people, setPeople] = useState([]);
   return (
     <div id="root">
-      <h1>Anybody home?</h1>
-      <li>
-          <button onClick={getPeople}>Go</button>
-          {people.map(person => <p>{person.name.first}&nbsp;{person.name.last}</p>)}
-      </li>
+      <header>
+        <h1>People</h1>
+      </header>
+      <main>
+            <button onClick={getPeople}>Go</button>
+            {people.map(person => <p>{person.name.first}&nbsp;{person.name.last}</p>)}
+      </main>
+      <footer>
+        Copyright &copy; {new Date().toDateString()}
+      </footer>
     </div>
   );
   function getPeople() {
