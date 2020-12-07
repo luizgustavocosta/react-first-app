@@ -10,7 +10,7 @@ function App() {
       </header>
       <main>
             <button onClick={getPeople}>Go</button>
-            {people.map(person => <p>{person.name.first}&nbsp;{person.name.last}</p>)}
+            {people.map(person => <p key={person.login.uuid}>{person.name.first}&nbsp;{person.name.last}</p>)}
       </main>
       <footer>
         Copyright &copy; {new Date().toDateString()}
