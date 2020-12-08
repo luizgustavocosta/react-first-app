@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {fetchPeople} from './apiPeople' //Regular function isnt a React component
+import {PeopleList} from './getting_started/PeopleList'
 
 function App() {
   const [people, setPeople] = useState([]);
@@ -10,7 +11,14 @@ function App() {
       </header>
       <main>
             <button onClick={getPeople}>Go</button>
-            {people.map(person => <p key={person.login.uuid}>{person.name.first}&nbsp;{person.name.last}</p>)}
+            <PeopleList people={people}/>
+            {/*
+            <button onClick={() => addPerson(person)}>Go</button>
+            To pass parameters.
+            or to capture events
+            <button onClick={event => myFunction(event, person)}
+
+            */}
       </main>
       <footer>
         Copyright &copy; {new Date().toDateString()}
@@ -18,6 +26,7 @@ function App() {
     </div>
   );
   function getPeople() {
+    // Use of useState, is a little weird but this is how it works
     fetchPeople().then(people => setPeople(people))
   }
 }
